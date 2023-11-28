@@ -1,0 +1,335 @@
+
+<!DOCTYPE html>
+ <html lang="zh-Hant">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>新北聯醫藥物泡製暨流速計算器</title>
+        <style>
+            body {
+                font-family: 'Arial', sans-serif; /* 更換字體 */
+                background-color: #f0f0f0; /* 淺灰色背景 */
+                color: #333;
+                margin: 0;
+                padding: 20px;
+                line-height: 1.6; /* 行高 */
+            }
+    
+            .calculator {
+                max-width: 600px;
+                margin: 40px auto;
+                background: #ffffff; /* 純白背景 */
+                padding: 20px;
+                border-radius: 15px; /* 更大的圓角 */
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* 更顯著的陰影 */
+            }
+    
+            h2 {
+                font-size: 36px; /* 增大標題字體 */
+                color: #000000; /* 黑色主題 */
+                text-align: center
+            }
+    
+            h3 {
+                font-weight: 600; /* 字體加粗 */
+                margin-bottom: 8px;
+                display: block;
+                text-align: right
+            }
+
+            h4 {
+                font-size: 18px; /* 增大標題字體 */
+                color: #007bff; /* 藍色主題 */
+                margin-bottom: 10px;
+            }
+    
+            label {
+                font-weight: 600; /* 字體加粗 */
+                margin-bottom: 8px;
+                display: block;
+                text-align: left
+            }
+    
+            input[type="number"],
+            select {
+                width: 100%;
+                padding: 12px;
+                margin-top: 6px;
+                border-radius: 5px;
+                border: 1px solid #ced4da; /* 邊框顏色 */
+                box-sizing: border-box;
+            }
+    
+            button {
+                width: 100%;
+                padding: 12px;
+                background-color: #28a745; /* 綠色按鈕 */
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 15px;
+                transition: background-color 0.3s, transform 0.2s; /* 增加轉換效果 */
+            }
+    
+            button:hover {
+                background-color: #218838; /* 深綠色 */
+            }
+            button:active {
+    transform: scale(0.98); /* 按鈕點擊時輕微縮小 */
+}
+input[type="number"]:focus,
+select:focus {
+    outline: none;
+    border: 1px solid #007bff; /* 當元素聚焦時顯示藍色邊框 */
+    box-shadow: 0 0 8px #d0d0d0; /* 添加輕微的陰影 */
+}
+    
+            .result {
+                margin-top: 25px;
+                padding: 15px;
+                background-color: #e9ecef; /* 淺灰色背景 */
+                border: 1px solid #dee2e6;
+                border-radius: 5px;
+                font-weight: 600; /* 結果字體加粗 */
+            }
+            .form-group {
+    margin-top: 20px; /* 增加上邊距 */
+    margin-bottom: 15px;
+}
+
+    
+            #commonMethod {
+    white-space: pre-line;
+    width: 100%; /* 設置寬度為 100% 以匹配其他輸入框 */
+    padding: 12px; /* 調整內邊距以與其他元素保持一致 */
+    margin-top: 5px; /* 調整上邊距 */
+    border-radius: 4px; /* 圓角設置與其他輸入框相同 */
+    border: 1px solid #ddd; /* 邊框樣式與其他輸入框相同 */
+    background-color: #fff; /* 背景顏色 */
+    box-sizing: border-box; /* 確保邊框和內邊距不會增加元素的總寬度 */
+}
+.group-box {
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #f8f9fa; /* 淺灰色背景 */
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+        </style>
+</head>
+<body>
+
+    <div class="calculator">
+        <h2>新北聯醫藥物泡製暨流速計算器</h2>
+        <h3>藥劑科製</h3>
+        <h3>2023.11.30</h3>
+        <h4>選擇藥物:</h4>
+        <div class="group-box">
+            <div class="form-group">
+                <select id="drug" onchange="displayCommonMethod()">
+                <option value="">請選擇藥物</option>
+                <option value="Amiodarone(Cordarone) 150mg/3mL">Amiodarone(Cordarone) 150mg/3mL</option>
+                <option value="Aminophylline(Aminophylline) 250mg/10ml">Aminophylline(Aminophylline) 250mg/10ml</option>
+                <option value="Dopamin(Dopamine) 200mg/5ml">Dopamin(Dopamine) 200mg/5ml</option>
+                <option value="Gipamine(Dopamine) 3mg/ml 200ml">Gipamine(Dopamine) 3mg/ml 200ml</option>
+                <option value="Dobutamine(Gendobu) 250mg/20ml">Dobutamine(Gendobu) 250mg/20ml</option>
+                <option value="Epinephrine(Bosmin) 1mg/1ml">Epinephrine(Bosmin) 1mg/1ml</option>
+                <option value="NorEpinephrine(Levophed) 4mg/4ml">NorEpinephrine(Levophed) 4mg/4ml</option>
+                <option value="IsosorbideDinitrate">Isosorbide Dinitrate(Angidil) 10mg/10mL</option>
+                <option value="Nitroglycerin(Millisrol) 5mg/10ml">Nitroglycerin(Millisrol) 5mg/10ml</option>
+                <option value="Nicardipine(Nicarpine) 10mg/10ml">Nicardipine(Nicarpine) 10mg/10ml</option>
+                <!-- 添加其他藥物選項 -->
+            </select>
+            <p id="commonMethod">常用泡法會在這裡顯示</p>
+        </div>
+    </div>
+    <h4>體重 (kg):</h4>
+    <div class="group-box">
+        <div class="form-group">
+            <input type="number" id="weight" placeholder="請輸入體重">
+        </div>
+    </div>
+    <h4>處方劑量/單位</h4>
+    <div class="group-box">
+        <div class="form-group">
+            <label for="dose">處方劑量:</label>
+            <input type="number" id="dose" placeholder="請輸入處方劑量">
+        </div>
+
+    <div class="form-group">
+        <label for="doseUnit">劑量單位(注意單位):</label>
+        <select id="doseUnit">
+            <option value="mcg/kg/min">μg/kg/min</option>
+            <option value="mcg/min">μg/min</option>
+            <option value="mg/hr">mg/hr</option>
+            <option value="mg/min">mg/min</option>
+            <option value="mg/kg/min">mg/kg/min</option>
+            <!-- 添加其他劑量單位 -->
+        </select>
+    </div>
+</div>
+        <h4>泡法</h4>
+        <div class="group-box">
+            <div class="form-group">
+                <label for="ampCount">使用藥物幾支:</label>
+                <input type="number" id="ampCount" oninput="updateConcentration()" placeholder="請輸入藥物數量">
+            </div>
+
+            <div class="form-group">
+                <label for="dripVolume">加入多少點滴 (毫升):</label>
+                <input type="number" id="dripVolume" oninput="updateConcentration()" placeholder="請輸入點滴體積">
+            </div>
+            <div class="result" id="concentrationDisplay">
+                <!-- 藥物濃度的計算結果將在這裡顯示 -->
+            </div>
+        </div>
+
+    <button onclick="calculate()">計算流速</button>
+
+    <div class="result" id="result">
+        <!-- 結果將在這裡顯示 -->
+    </div>
+    <p id="resultMgHr"></p>
+    <p id="resultMlMin"></p>
+</div>
+
+<script>
+    // 药物的详细信息
+    const drugs = {
+        'Amiodarone(Cordarone) 150mg/3mL': { concentration: 50, volume: 3 }, // Concentration is in mg/ml, volume is for each amp
+        'Aminophylline(Aminophylline) 250mg/10ml': { concentration: 25, volume: 10 },
+        'Dopamin(Dopamine) 200mg/5ml': { concentration: 40, volume: 5 },
+        'Gipamine(Dopamine) 3mg/ml 200ml': { concentration: 3, volume: 200 },
+        'Dobutamine(Gendobu) 250mg/20ml': { concentration: 12.5, volume: 20 },
+        'Epinephrine(Bosmin) 1mg/1ml': { concentration: 1, volume: 1 },
+        'NorEpinephrine(Levophed) 4mg/4ml': { concentration: 1, volume: 4 },
+        'IsosorbideDinitrate': { concentration: 5, volume: 10 },
+        'Nitroglycerin(Millisrol) 5mg/10ml': { concentration: 5, volume: 10 },
+        'Nicardipine(Nicarpine) 10mg/10ml': { concentration: 2.5, volume: 10 },
+        // 添加其他藥物的詳細信息
+    };
+    // 常用泡法
+    const commonMethods = {
+  'Amiodarone(Cordarone) 150mg/3mL': '常用泡法: 6amp 加 500ml\n建議泡製溶液: D5W\n稀釋濃度: 至少需大於0.6 mg/mL\n輸注濃度: 超過2mg/ml需使用central line\n建議劑量: 初次給藥先打一支(150mg) drip over 10分鐘，前六小時run 1 mg/min，後18小時run 0.5mg/min',
+  'Aminophylline(Aminophylline) 250mg/10ml': '常用泡法: 2amp 加 250ml\n建議泡製溶液: NS, D5W\n建議劑量: Loading dose如果24小時內沒用過Aminophylline先loading dose: 5.7mg/kg(ideal body weight) IV over 30 minutes，Maintenance dose非吸煙者: 0.5mg/kg/hr，吸煙者: 0.875 mg/kg/hr，大於60歲: 0.375 mg/kg/hr，Liver dysfunction: 0.25 mg/kg/hr\n其他注意事項: Theophylline換算: Theophylline = 0.8 x Aminophylline',
+  'Dopamin(Dopamine) 200mg/5ml': '常用泡法: 2-4amp in 250-500ml\n建議泡製溶液: D5W, NS\n劑量範圍: 常用2~20 μg/kg/min\n建議劑量: MAX:50μg/kg/min\n其他注意事項: Effects低劑量: [0.5 to 2 μg/kg/min] - dopa，中劑量: [2-10 μg/kg/min] - dopa/beta，高劑量: [>10 μg/kg/min] - primarily alpha',
+  'Gipamine(Dopamine) 3mg/ml 200ml': '建議劑量: 常用2~20 μg/kg/min, MAX:50μg/kg/min\n其他注意事項: Effects低劑量: [0.5 to 2 μg/kg/min] - dopa，中劑量: [2-10 μg/kg/min] - dopa/beta，高劑量: [>10 μg/kg/min] - primarily alpha',
+  'Dobutamine(Gendobu) 250mg/20ml': '常用泡法: 2vials in 250-500ml\n建議泡製溶液: D5W, NS\n劑量範圍: 常用2~20 μg/kg/min\n建議劑量: MAX:40μg/kg/min',
+  'Epinephrine(Bosmin) 1mg/1ml': '常用泡法: 1 amp in 100mL\n建議泡製溶液: D5W, NS\n建議劑量: Inotropic support: 0.01 to 0.5 μg/kg/min，Anaphylaxis: 0.1 to 0.5 mg IV slow push\n輸注濃度: Typically 1 to 4 μg/min\n其他注意事項: Typically used in cardiac arrest (1mg IV push)',
+  'NorEpinephrine(Levophed) 4mg/4ml': '常用泡法: 2-4 amp in 250-500 ml\n建議泡製溶液: D5W\n建議劑量: 0.01 to 3 μg/kg/min',
+  'Isosorbide Dinitrate(Angidil) 10mg/10mL': '常用泡法: 5amp 稀釋成 500ml 或 10amp稀釋成500ml(for 限水病人)\n建議泡製溶液: D5W, NS\n劑量範圍: 通常用0.5~8 mg/hr\n建議劑量: CHF IV: 2-3 mg/hr titrate to effect\n其他注意事項: IV form rarely used for angina'
+};
+
+function displayCommonMethod() {
+  var drug = document.getElementById("drug").value;
+  var method = commonMethods[drug];
+  if (method) {
+    document.getElementById("commonMethod").textContent = method;
+  } else {
+    document.getElementById("commonMethod").textContent = "未找到該藥物的常用泡法信息。";
+  }
+}
+function updateConcentration() {
+    var ampCount = parseInt(document.getElementById("ampCount").value) || 0;
+    var dripVolume = parseFloat(document.getElementById("dripVolume").value) || 0;
+    var selectedDrug = document.getElementById("drug").value;
+
+    var drugDetails = drugs[selectedDrug];
+    if (drugDetails && ampCount && dripVolume) {
+        var totalDrugMg = drugDetails.concentration * drugDetails.volume * ampCount; // 藥物總量(mg)
+        var totalVolume = ampCount * drugDetails.volume + dripVolume; // 總體積(ml)
+        var concentration = totalVolume ? (totalDrugMg / totalVolume).toFixed(2) : "0.00"; // 保留兩位小數
+
+        document.getElementById("concentrationDisplay").textContent = 
+            "每 " + totalVolume + " 毫升的點滴中含有 " + totalDrugMg + " 單位的 " + selectedDrug + 
+            "，濃度為 " + concentration + " mg/mL。";
+    } else {
+        document.getElementById("concentrationDisplay").textContent = "請輸入完整資訊以計算濃度";
+    }
+}
+
+function calculate() {
+    var weight = parseFloat(document.getElementById("weight").value); // 體重
+    var dose = parseFloat(document.getElementById("dose").value); // 處方劑量
+    var doseUnit = document.getElementById("doseUnit").value; // 劑量單位
+    var ampCount = parseInt(document.getElementById("ampCount").value); // 藥物數量
+    var dripVolume = parseFloat(document.getElementById("dripVolume").value); // 點滴體積
+    var selectedDrug = document.getElementById("drug").value; // 選擇的藥物
+
+    // 從 drugs 對象中獲得當前選擇的藥物細節
+    var drugDetails = drugs[selectedDrug];
+    if (drugDetails && weight && dose && ampCount && dripVolume) {
+        // 計算藥物總量(mg)
+        var totalDrugMg = drugDetails.concentration * drugDetails.volume * ampCount;
+
+        // 計算總體積(ml)
+        var totalVolume = ampCount * drugDetails.volume + dripVolume;
+
+        // 計算劑量單位轉換為mg/min
+        var dosePerMinute;
+var doseConversionDetails = "";
+switch (doseUnit) {
+    case 'mcg/kg/min':
+        dosePerMinute = dose * weight / 1000;
+        doseConversionDetails = "Step 1: 將劑量 " + dose + " mcg/kg/min 乘上體重 " + weight + " 公斤等於 " + dosePerMinute.toFixed(2) + " mg/min。";
+        break;
+    case 'mcg/min':
+        dosePerMinute = dose / 1000;
+        doseConversionDetails = "Step 1: 將劑量 " + dose + " mcg/min 轉換為 " + dosePerMinute.toFixed(2) + " mg/min。";
+        break;
+    case 'mg/hr':
+        dosePerMinute = dose / 60;
+        doseConversionDetails = "Step 1: 將劑量 " + dose + " mg/hr 轉換為 " + dosePerMinute.toFixed(2) + " mg/min。";
+        break;
+    case 'mg/min':
+        dosePerMinute = dose;
+        doseConversionDetails = "Step 1: 劑量已經是 " + dosePerMinute.toFixed(2) + " mg/min。";
+        break;
+    case 'mg/kg/min':
+        dosePerMinute = dose * weight;
+        doseConversionDetails = "Step 1: 將劑量 " + dose + " mg/kg/min 乘上體重 " + weight + " 公斤等於 " + dosePerMinute.toFixed(2) + " mg/min。";
+        break;
+    default:
+        alert("未知的劑量單位");
+        return;
+}
+        // 計算濃度
+        var concentration = (totalDrugMg / totalVolume).toFixed(2);
+
+        // 計算流速(ml/hr)
+        var infusionRateMlPerHr = (dosePerMinute / parseFloat(concentration)) * 60;
+        
+        // 將流速從小時轉換為分鐘
+        var infusionRateMlPerMin = infusionRateMlPerHr / 60;
+
+        // 詳細計算過程
+        var calculationDetails = "計算過程:\n";
+            calculationDetails += doseConversionDetails + "\n";
+            calculationDetails += "Step 2: 藥物總量(mg) = " + totalDrugMg.toFixed(2) + "\n";
+            calculationDetails += "Step 3: 總體積(ml) = " + totalVolume.toFixed(2) + "\n";
+            calculationDetails += "Step 4: 濃度 = 藥物總量(mg) / 總體積(ml) = " + concentration + " mg/mL\n";
+            calculationDetails += "Step 5: 流速(ml/hr) = [每分鐘劑量(mg/min) / 濃度(mg/ml) ] * 60(min/hr) = [" + dosePerMinute.toFixed(2) + "(mg/min)/" + concentration + "(mg/mL)] * 60(min/hr) = " + infusionRateMlPerHr.toFixed(2) + " ml/hr\n";
+
+        // 顯示計算結果和詳細計算過程
+        var resultText = "藥物名稱: " + selectedDrug + "\n";
+            resultText += "流速: " + infusionRateMlPerHr.toFixed(2) + " ml/hr = " + infusionRateMlPerMin.toFixed(2) + " ml/min\n";
+            resultText += calculationDetails;
+
+            document.getElementById("result").innerText = resultText;
+    } else {
+        alert("請填寫所有項目");
+    }
+}
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
