@@ -77,7 +77,7 @@
         <div style="text-align: center; margin-top: 20px;">
             <h3>藥劑科製 ver 1.0</h3>
             <p style="color: red; font-weight: bold;text-align: left">警示：此計算器預測的濃度僅供參考，由於個體差異，請以抽測濃度為準。</p>
-            <p style="color: red; font-weight: bold;text-align: left">透析病人或CVVH不需要計算，H/D:7.5-10mg/kg 透析後給藥(一周後抽Trough); CVVH:5-10mg Q12H(三天後抽Trough)；。</p>
+            <p style="color: red; font-weight: bold;text-align: left">透析病人或CVVH不需計算，H/D:7.5-10mg/kg 透析後給藥(一周後透析前抽Trough); CVVH:5-10mg Q12H(三天後抽Trough)；。</p>
         </div>
         <div>
             <label for="age">年齡 (歲):</label>
@@ -165,7 +165,7 @@
                 '預測Trough Concentration: ' + TroughConcentration.toFixed(2) + ' mcg/ml<br>' +
                 '預測Peak Concentration: ' + PeakConcentration.toFixed(2) + ' mcg/ml<br>' +
                 '預測AUC24h: ' + AUC24h.toFixed(2) + ' mcg*hr/ml<br>' +
-                '建議抽血時機 (5個半衰期後): ' + recommendedSamplingTime.toFixed(2) + ' 小時後';
+                '建議抽血時機: ' + recommendedSamplingTime.toFixed(2) + ' 小時後';
         }
     </script>
         <div style="max-width: 600px; margin: 40px auto; background: #ffffff; padding: 20px; border-radius: 15px;">
