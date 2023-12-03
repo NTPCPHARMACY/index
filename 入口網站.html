@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新北市立聯合醫院藥物相關計算器</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #0c3492, #143788);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .card {
+            background: #fff;
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .card p {
+            color: #666;
+        }
+        .card a {
+            display: inline-block;
+            background: #6b8dde;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+        .card a:hover {
+            background: #5a7bc8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>新北市立聯合醫院藥物相關計算器</h1>
+        </div>
+        
+        <!-- 常用針劑流速計算器 -->
+        <div class="card">
+            <h3>常用針劑流速計算器</h3>
+            <p>快速計算不同針劑的流速。</p>
+            <a href="https://ntpcpharmacy.github.io/index/流速">開始計算</a>
+        </div>
+
+        <!-- Vancomycin經驗劑量計算器 -->
+        <div class="card">
+            <h3>Vancomycin經驗劑量計算器</h3>
+            <p>針對特定病患計算Vancomycin的經驗劑量。</p>
+            <a href="https://ntpcpharmacy.github.io/index/vancomycin">開始計算</a>
+        </div>
+
+        <!-- CrCl(Cockcroft-Gault)腎功能計算器 -->
+        <div class="card">
+            <h3>CrCl(Cockcroft-Gault)腎功能計算器</h3>
+            <p>使用Cockcroft-Gault公式計算腎功能。</p>
+            <a href="https://ntpcpharmacy.github.io/index/CrCl">開始計算</a>
+        </div>
+    </div>
+</body>
+</html>
