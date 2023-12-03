@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vancomycin劑量計算器</title>
+    <style>
+        /* 您的CSS樣式 */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .calculator {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            font-size: 36px;
+            color: #000000;
+            text-align: center;
+        }
+        h3 {
+            font-size: 20px;
+            color: #000000;
+            text-align: right;
+        }
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            margin-top: 8px;
+            display: block;
+            text-align: left;
+        }
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h2>Vancomycin經驗性劑量計算器</h2>
+        <div style="text-align: center; margin-top: 20px;">
+            <h3>藥劑科製 ver 1.0</h3>
+            <p style="color: red; font-weight: bold;text-align: left">警示：此計算器預測的濃度僅供參考，由於個體差異，請以抽測濃度為準。</p>
+            <p style="color: red; font-weight: bold;text-align: left">透析病人或CVVH不需要計算，H/D:7.5-10mg/kg 透析後給藥(一周後抽Trough); CVVH:5-10mg Q12H(三天後抽Trough)；。</p>
+        </div>
+        <div>
+            <label for="age">年齡 (歲):</label>
+            <input type="number" id="age" placeholder="請輸入年齡">
+        </div>
+        <div>
+            <label for="weight">體重 (kg):</label>
+            <input type="number" id="weight" placeholder="請輸入體重">
+        </div>
+        <div>
+            <label for="gender">性別:</label>
+            <select id="gender">
+                <option value="male">男性</option>
+                <option value="female">女性</option>
+            </select>
+        </div>
+        <div>
+            <label for="serumCreatinine">血清肌酐 (mg/dL):</label>
+            <input type="number" id="serumCreatinine" placeholder="請輸入血清肌酐">
+        </div>
+        <div>
+            <label for="dose">劑量 (mg):</label>
+            <input type="number" id="dose" placeholder="請輸入劑量">
+        </div>
+        <div>
+            <label for="duration">給藥間隔 (小時):</label>
+            <input type="number" id="duration" placeholder="請輸入給藥間隔">
+        </div>
+        <button onclick="calculateVancomycin()">計算劑量</button>
+        <div class="result" id="calculationResult">
+            <!-- 計算結果將在這裡顯示 -->
+        </div>
+    </div>
+
+    <script>
+        function calculateVancomycin() {
+            // 提取用戶輸入的數據
+            var age = parseFloat(document.getElementById("age").value);
+            var weight = parseFloat(document.getElementById("weight").value);
+            var gender = document.getElementById("gender").value;
+            var serumCreatinine = parseFloat(document.getElementById("serumCreatinine").value);
+            var dose = parseFloat(document.getElementById("dose").value);
+            var duration = parseFloat(document.getElementById("duration").value);
+
+            // 用於確保所有數據都已輸入並且是有效的
+            if (isNaN(age) || isNaN(weight) || isNaN(serumCreatinine) || isNaN(dose) || isNaN(duration)) {
+                document.getElementById("calculationResult").innerHTML = "請輸入所有必要信息。";
+                return;
+            }
+
+            // 適用於肌酐值和體重的特殊情況處理
+            serumCreatinine = Math.max(serumCreatinine, 0.8); // 若血清肌酐低於0.8，則使用0.8
+            weight = Math.min(weight, 80); // 若體重超過80公斤，則使用80
+
+            // 計算Clcr
+            var Clcr = ((140 - age) * weight) / (72 * serumCreatinine);
+            if (gender === "female") {
+                Clcr *= 0.85;
+            }
+
+            // 計算體積分佈 (Vd)
+            var Vd = (0.17 * age) + (0.22 * weight) + 15;
+
+            // 計算消除常數 (Kd)
+            var Kd = (Clcr * 60 * 0.001) / Vd;
+
+            // 計算峰值濃度和谷值濃度
+            var PeakConcentration = (dose / Vd) / (1 - Math.exp(-Kd * duration));
+            var TroughConcentration = PeakConcentration * Math.exp(-Kd * (duration - 2));
+
+            // 計算半衰期
+            var T1_2 = 0.693 / Kd;
+
+            // 計算AUC24h
+            var AUC24h = (24 / duration) * (
+                (Math.exp(Math.log(TroughConcentration) - (-(Math.log(PeakConcentration/TroughConcentration) / duration) * (duration))) - TroughConcentration) /
+                (Math.log(PeakConcentration / TroughConcentration) / duration)
+            );
+
+            // 計算建議抽血時機（5個半衰期後）
+            var recommendedSamplingTime = T1_2 * 5;
+
+            // 顯示計算結果
+            document.getElementById("calculationResult").innerHTML =
+                '預測Trough Concentration: ' + TroughConcentration.toFixed(2) + ' mcg/ml<br>' +
+                '預測Peak Concentration: ' + PeakConcentration.toFixed(2) + ' mcg/ml<br>' +
+                '預測AUC24h: ' + AUC24h.toFixed(2) + ' mcg*hr/ml<br>' +
+                '建議抽血時機 (5個半衰期後): ' + recommendedSamplingTime.toFixed(2) + ' 小時後';
+        }
+    </script>
+        <div style="max-width: 600px; margin: 40px auto; background: #ffffff; padding: 20px; border-radius: 15px;">
+            <label>劑量建議：</label>
+            <p>對嚴重的MRSA感染，Trough建議在15至20 mcg/ml之間，並且24小時累積暴露量（AUC24h）應控制在400至600 mcg*hr/ml範圍內以達到最佳治療效果。</p><p>對於一般感染，Trough建議維持在10至15 mcg/ml。</p>
+        </div>
+</body>
+</html>
