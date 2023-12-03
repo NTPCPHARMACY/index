@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>腎功能Cockcroft-Gault Equation計算機</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .calculator {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 36px;
+            color: #000000;
+            text-align: center;
+        }
+
+        label {
+            font-weight: 600;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            display: block;
+            text-align: left;
+        }
+
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h2>腎功能Cockcroft-Gault計算機</h2>
+        <div>
+            <label for="age">年齡 (歲):</label>
+            <input type="number" id="age" placeholder="請輸入年齡">
+        </div>
+        <div>
+            <label for="gender">性別:</label>
+            <select id="gender">
+                <option value="male">男性</option>
+                <option value="female">女性</option>
+            </select>
+        </div>
+        <div>
+            <label for="weight">體重 (kg):</label>
+            <input type="number" id="weight" placeholder="請輸入體重">
+        </div>
+        <div>
+            <label for="serumCreatinine">血清肌酐Scr(mg/dL):</label>
+            <input type="number" id="serumCreatinine" placeholder="請輸入血清肌酐">
+        </div>
+        <div>
+            <label for="useDefault">勾選後，體重超過80公斤的部分將以80公斤計，Scr小於0.8以0.8計。</label>
+            <input type="checkbox" id="useDefault" checked>
+        </div>
+        <button onclick="calculateGFR()">計算腎功能</button>
+        <div class="result" id="gfrResult">
+            <!-- 腎功能計算結果將在這裡顯示 -->
+        </div>
+    </div>
+
+    <script>
+        function calculateGFR() {
+            var age = parseInt(document.getElementById("age").value);
+            var gender = document.getElementById("gender").value;
+            var weight = parseFloat(document.getElementById("weight").value);
+            var serumCreatinine = parseFloat(document.getElementById("serumCreatinine").value);
+            var useDefault = document.getElementById("useDefault").checked;
+
+            if (useDefault) {
+                if (weight > 80) {
+                    weight = 80;
+                }
+                if (serumCreatinine < 0.8) {
+                    serumCreatinine = 0.8;
+                }
+            }
+
+            if (age && weight && serumCreatinine && (gender === "male" || gender === "female")) {
+                var gfr = ((140 - age) * weight) / (72 * serumCreatinine);
+                if (gender === "female") {
+                    gfr *= 0.85;
+                }
+                document.getElementById("gfrResult").textContent = "估算腎小球過濾率（CrCl）: " + gfr.toFixed(2) + " mL/min";
+            } else {
+                document.getElementById("gfrResult").textContent = "請填寫所有欄位";
+            }
+        }
+    </script>
+</body>
+</html>
