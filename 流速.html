@@ -129,14 +129,19 @@ select:focus {
                 <option value="">請選擇藥物</option>
                 <option value="Amiodarone(Cordarone) 150mg/3mL">Amiodarone(Cordarone) 150mg/3mL</option>
                 <option value="Aminophylline(Aminophylline) 250mg/10ml">Aminophylline(Aminophylline) 250mg/10ml</option>
+                <option value="Dobutamine(Gendobu) 250mg/20ml">Dobutamine(Gendobu) 250mg/20ml</option>
                 <option value="Dopamin(Dopamine) 200mg/5ml">Dopamin(Dopamine) 200mg/5ml</option>
                 <option value="Gipamine(Dopamine) 3mg/ml 200ml">Gipamine(Dopamine) 3mg/ml 200ml</option>
-                <option value="Dobutamine(Gendobu) 250mg/20ml">Dobutamine(Gendobu) 250mg/20ml</option>
                 <option value="Epinephrine(Bosmin) 1mg/1ml">Epinephrine(Bosmin) 1mg/1ml</option>
-                <option value="NorEpinephrine(Levophed) 4mg/4ml">NorEpinephrine(Levophed) 4mg/4ml</option>
                 <option value="IsosorbideDinitrate">Isosorbide Dinitrate(Angidil) 10mg/10mL</option>
-                <option value="Nitroglycerin(Millisrol) 5mg/10ml">Nitroglycerin(Millisrol) 5mg/10ml</option>
+                <option value="Lidocaine(Xylocaine) 100mg/5ml">Lidocaine(Xylocaine) 100mg/5ml</option>
+                <option value="Midazolam(Midatin) 15mg/3ml">Midazolam(Midatin) 15mg/3ml</option>
+                <option value="Nicardipine(Holdipine Premixed) 40mg/200mL">Nicardipine(Holdipine Premixed) 40mg/200mL</option>
                 <option value="Nicardipine(Nicarpine) 10mg/10ml">Nicardipine(Nicarpine) 10mg/10ml</option>
+                <option value="Nitroglycerin(Millisrol) 5mg/10ml">Nitroglycerin(Millisrol) 5mg/10ml</option>
+                <option value="NorEpinephrine(Levophed) 4mg/4ml">NorEpinephrine(Levophed) 4mg/4ml</option>
+                <option value="Propofol (Fresofol) 200mg/20ml">Propofol (Fresofol) 200mg/20ml</option>
+                <option value="Somatostatin(Somatosan) 3mg">Somatostatin(Somatosan) 3mg</option>
                 <!-- 添加其他藥物選項 -->
             </select>
             <p id="commonMethod">常用泡法會在這裡顯示</p>
@@ -158,8 +163,8 @@ select:focus {
     <div class="form-group">
         <label for="doseUnit">劑量單位(注意單位):</label>
         <select id="doseUnit">
-            <option value="mcg/kg/min">μg/kg/min</option>
-            <option value="mcg/min">μg/min</option>
+            <option value="μg/kg/min">μg/kg/min</option>
+            <option value="μg/min">μg/min</option>
             <option value="mg/hr">mg/hr</option>
             <option value="mg/min">mg/min</option>
             <option value="mg/kg/min">mg/kg/min</option>
@@ -202,9 +207,14 @@ select:focus {
         'Dobutamine(Gendobu) 250mg/20ml': { concentration: 12.5, volume: 20 },
         'Epinephrine(Bosmin) 1mg/1ml': { concentration: 1, volume: 1 },
         'NorEpinephrine(Levophed) 4mg/4ml': { concentration: 1, volume: 4 },
-        'IsosorbideDinitrate': { concentration: 5, volume: 10 },
-        'Nitroglycerin(Millisrol) 5mg/10ml': { concentration: 5, volume: 10 },
-        'Nicardipine(Nicarpine) 10mg/10ml': { concentration: 2.5, volume: 10 },
+        'IsosorbideDinitrate': { concentration: 1, volume: 10 },
+        'Nitroglycerin(Millisrol) 5mg/10ml': { concentration: 0.5, volume: 10 },
+        'Nicardipine(Nicarpine) 10mg/10ml': { concentration: 1, volume: 10 },
+        'Midazolam(Midatin) 15mg/3ml': { concentration: 5, volume: 3 },
+        'Somatostatin(Somatosan) 3mg': { concentration: 3, volume: 1 },
+        'Propofol (Fresofol) 200mg/20ml': { concentration: 10, volume: 20 },
+        'Nicardipine(Holdipine Premixed) 40mg/200mL': { concentration: 0.2, volume: 200 },
+        'Lidocaine(Xylocaine) 100mg/5ml': { concentration: 20, volume: 5 },
         // 添加其他藥物的詳細信息
     };
     // 常用泡法
@@ -216,7 +226,14 @@ select:focus {
   'Dobutamine(Gendobu) 250mg/20ml': '常用泡法: 2vials in 250-500ml\n建議泡製溶液: D5W, NS\n劑量範圍: 常用2~20 μg/kg/min\n建議劑量: MAX:40μg/kg/min',
   'Epinephrine(Bosmin) 1mg/1ml': '常用泡法: 1 amp in 100mL\n建議泡製溶液: D5W, NS\n建議劑量: Inotropic support: 0.01 to 0.5 μg/kg/min，Anaphylaxis: 0.1 to 0.5 mg IV slow push\n輸注濃度: Typically 1 to 4 μg/min\n其他注意事項: Typically used in cardiac arrest (1mg IV push)',
   'NorEpinephrine(Levophed) 4mg/4ml': '常用泡法: 2-4 amp in 250-500 ml\n建議泡製溶液: D5W\n建議劑量: 0.01 to 3 μg/kg/min',
-  'Isosorbide Dinitrate(Angidil) 10mg/10mL': '常用泡法: 5amp 稀釋成 500ml 或 10amp稀釋成500ml(for 限水病人)\n建議泡製溶液: D5W, NS\n劑量範圍: 通常用0.5~8 mg/hr\n建議劑量: CHF IV: 2-3 mg/hr titrate to effect\n其他注意事項: IV form rarely used for angina'
+  'Isosorbide Dinitrate(Angidil) 10mg/10mL': '常用泡法: 5amp 稀釋成 500ml 或 10amp稀釋成500ml(for 限水病人)\n建議泡製溶液: D5W, NS\n劑量範圍: 通常用0.5~8 mg/hr\n建議劑量: CHF IV: 2-3 mg/hr titrate to effect\n其他注意事項: IV form rarely used for angina',
+  'Nitroglycerin(Millisrol) 5mg/10ml': '常用泡法: 5amp in 200ml(total 250 cc)\n建議泡製溶液: D5W, NS\n劑量範圍: 常用5~ 10μg/min起始，依症狀調整，MAX: up to  400 μg/min',
+  'Nicardipine(Nicarpine) 10mg/10ml': '常用泡法:5 amps/200 ml\n建議泡製溶液: D5W, NS or 1/2NS\n劑量範圍:  起始5 mg/hr，以5-15分間隔，每次增加2.5mg/hr調整流速來達到目標血壓，maximum dose: 15 mg/hr',
+  'Midazolam(Midatin) 15mg/3ml': '常用泡法:不稀釋或3支(45mg)泡成45mL，泡成每ml含1mg\n建議泡製溶液: 無\n劑量範圍:0.04-0.2mg/kg/hr\n其他注意事項: 大劑量不稀釋要用CVC給藥(因會靜脈炎)',
+  'Somatostatin(Somatosan) 3mg': '常用泡法: 食道靜脈曲張出血: 2支泡成500ml，20ml full run，剩下480ml 20ml/hr 速率24小時 run完\n建議泡製溶液:NS or D5W',
+  'Propofol (Fresofol) 200mg/20ml': '常用泡法:不須稀釋\n建議泡製溶液: D5W,NS\n劑量範圍:1.5-24ml/hr, 50-200mg/hr or 5-80 µg/kg/min\n其他注意事項: (1)單獨一條line使用; (2)從CVC給藥; (3)對肝腎功能無明顯影響; (4) for seizure: 1-5mg/kg/hr, max dose: 10mg/kg/hr; (5)治療期間需監測TG; (6)高劑量可能會出現propofol infusion syndrome',
+  'Nicardipine(Holdipine Premixed) 40mg/200mL': '常用泡法:5 amps/200 ml\n建議泡製溶液: D5W, NS or 1/2NS\n劑量範圍:  起始5 mg/hr，以5-15分間隔，每次增加2.5mg/hr調整流速來達到目標血壓，maximum dose: 15 mg/hr',
+  'Lidocaine(Xylocaine) 100mg/5ml': '常用泡法: 10 amps 200 ml NS\n劑量範圍: 無脈搏VT/VF：1~1.5 mg/kg IVD 心室心律不整：0.5~0.75 mg/kg IVD，之後1~4 mg/min IVF',
 };
 
 function displayCommonMethod() {
@@ -268,13 +285,13 @@ function calculate() {
         var dosePerMinute;
 var doseConversionDetails = "";
 switch (doseUnit) {
-    case 'mcg/kg/min':
+    case 'μg/kg/min':
         dosePerMinute = dose * weight / 1000;
-        doseConversionDetails = "Step 1: 將劑量 " + dose + " mcg/kg/min 乘上體重 " + weight + " 公斤等於 " + dosePerMinute.toFixed(2) + " mg/min。";
+        doseConversionDetails = "Step 1: 將劑量 " + dose + " μg/kg/min 乘上體重 " + weight + " 公斤等於 " + dosePerMinute.toFixed(2) + " mg/min。";
         break;
-    case 'mcg/min':
+    case 'μg/min':
         dosePerMinute = dose / 1000;
-        doseConversionDetails = "Step 1: 將劑量 " + dose + " mcg/min 轉換為 " + dosePerMinute.toFixed(2) + " mg/min。";
+        doseConversionDetails = "Step 1: 將劑量 " + dose + " μg/min 轉換為 " + dosePerMinute.toFixed(2) + " mg/min。";
         break;
     case 'mg/hr':
         dosePerMinute = dose / 60;
