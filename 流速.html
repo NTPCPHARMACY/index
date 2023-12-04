@@ -257,7 +257,7 @@ function updateConcentration() {
         var concentration = totalVolume ? (totalDrugMg / totalVolume).toFixed(2) : "0.00"; // 保留兩位小數
 
         document.getElementById("concentrationDisplay").textContent = 
-            "每 " + totalVolume + " 毫升的點滴中含有 " + totalDrugMg + " 單位的 " + selectedDrug + 
+            "每 " + totalVolume + " 毫升的點滴(含藥物體積)中含有 " + totalDrugMg + " 單位的 " + selectedDrug + 
             "，濃度為 " + concentration + " mg/mL。";
     } else {
         document.getElementById("concentrationDisplay").textContent = "請輸入完整資訊以計算濃度";
