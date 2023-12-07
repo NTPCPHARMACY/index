@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>新北聯醫藥物泡製暨流速計算器</title>
+        <title>新北聯醫藥品泡製暨流速計算器</title>
         <style>
             body {
                 font-family: 'Arial', sans-serif; /* 更換字體 */
@@ -120,13 +120,13 @@ select:focus {
 <body>
 
     <div class="calculator">
-        <h2>新北聯醫藥物泡製暨流速計算器</h2>
+        <h2>新北聯醫藥品泡製暨流速計算器</h2>
         <h3>藥劑科製 2023.11.30 <span class="version-separator">|</span> ver 1.0</h3>
-        <h4>選擇藥物:</h4>
+        <h4>選擇藥品:</h4>
         <div class="group-box">
             <div class="form-group">
                 <select id="drug" onchange="displayCommonMethod()">
-                <option value="">請選擇藥物</option>
+                <option value="">請選擇藥品</option>
                 <option value="Amiodarone(Cordarone) 150mg/3mL">Amiodarone(Cordarone) 150mg/3mL</option>
                 <option value="Aminophylline(Aminophylline) 250mg/10ml">Aminophylline(Aminophylline) 250mg/10ml</option>
                 <option value="Dobutamine(Gendobu) 250mg/20ml">Dobutamine(Gendobu) 250mg/20ml</option>
@@ -142,7 +142,7 @@ select:focus {
                 <option value="NorEpinephrine(Levophed) 4mg/4ml">NorEpinephrine(Levophed) 4mg/4ml</option>
                 <option value="Propofol (Fresofol) 200mg/20ml">Propofol (Fresofol) 200mg/20ml</option>
                 <option value="Somatostatin(Somatosan) 3mg">Somatostatin(Somatosan) 3mg</option>
-                <!-- 添加其他藥物選項 -->
+                <!-- 添加其他藥品選項 -->
             </select>
             <p id="commonMethod">常用泡法會在這裡顯示</p>
         </div>
@@ -175,8 +175,8 @@ select:focus {
         <h4>泡法</h4>
         <div class="group-box">
             <div class="form-group">
-                <label for="ampCount">使用藥物幾支:</label>
-                <input type="number" id="ampCount" oninput="updateConcentration()" placeholder="請輸入藥物數量">
+                <label for="ampCount">使用藥品幾支:</label>
+                <input type="number" id="ampCount" oninput="updateConcentration()" placeholder="請輸入藥品數量">
             </div>
 
             <div class="form-group">
@@ -184,7 +184,7 @@ select:focus {
                 <input type="number" id="dripVolume" oninput="updateConcentration()" placeholder="請輸入點滴體積">
             </div>
             <div class="result" id="concentrationDisplay">
-                <!-- 藥物濃度的計算結果將在這裡顯示 -->
+                <!-- 藥品濃度的計算結果將在這裡顯示 -->
             </div>
         </div>
 
@@ -215,7 +215,7 @@ select:focus {
         'Propofol (Fresofol) 200mg/20ml': { concentration: 10, volume: 20 },
         'Nicardipine(Holdipine Premixed) 40mg/200mL': { concentration: 0.2, volume: 200 },
         'Lidocaine(Xylocaine) 100mg/5ml': { concentration: 20, volume: 5 },
-        // 添加其他藥物的詳細信息
+        // 添加其他藥品的詳細信息
     };
     // 常用泡法
     const commonMethods = {
@@ -242,7 +242,7 @@ function displayCommonMethod() {
   if (method) {
     document.getElementById("commonMethod").textContent = method;
   } else {
-    document.getElementById("commonMethod").textContent = "未找到該藥物的常用泡法信息。";
+    document.getElementById("commonMethod").textContent = "未找到該藥品的常用泡法信息。";
   }
 }
 function updateConcentration() {
@@ -252,12 +252,12 @@ function updateConcentration() {
 
     var drugDetails = drugs[selectedDrug];
     if (drugDetails && ampCount && dripVolume) {
-        var totalDrugMg = drugDetails.concentration * drugDetails.volume * ampCount; // 藥物總量(mg)
+        var totalDrugMg = drugDetails.concentration * drugDetails.volume * ampCount; // 藥品總量(mg)
         var totalVolume = ampCount * drugDetails.volume + dripVolume; // 總體積(ml)
         var concentration = totalVolume ? (totalDrugMg / totalVolume).toFixed(2) : "0.00"; // 保留兩位小數
 
         document.getElementById("concentrationDisplay").textContent = 
-            "每 " + totalVolume + " 毫升的點滴(含藥物體積)中含有 " + totalDrugMg + " 單位的 " + selectedDrug + 
+            "每 " + totalVolume + " 毫升的點滴(含藥品體積)中含有 " + totalDrugMg + " 單位的 " + selectedDrug + 
             "，濃度為 " + concentration + " mg/mL。";
     } else {
         document.getElementById("concentrationDisplay").textContent = "請輸入完整資訊以計算濃度";
@@ -268,14 +268,14 @@ function calculate() {
     var weight = parseFloat(document.getElementById("weight").value); // 體重
     var dose = parseFloat(document.getElementById("dose").value); // 處方劑量
     var doseUnit = document.getElementById("doseUnit").value; // 劑量單位
-    var ampCount = parseInt(document.getElementById("ampCount").value); // 藥物數量
+    var ampCount = parseInt(document.getElementById("ampCount").value); // 藥品數量
     var dripVolume = parseFloat(document.getElementById("dripVolume").value); // 點滴體積
-    var selectedDrug = document.getElementById("drug").value; // 選擇的藥物
+    var selectedDrug = document.getElementById("drug").value; // 選擇的藥品
 
-    // 從 drugs 對象中獲得當前選擇的藥物細節
+    // 從 drugs 對象中獲得當前選擇的藥品細節
     var drugDetails = drugs[selectedDrug];
     if (drugDetails && weight && dose && ampCount && dripVolume) {
-        // 計算藥物總量(mg)
+        // 計算藥品總量(mg)
         var totalDrugMg = drugDetails.concentration * drugDetails.volume * ampCount;
 
         // 計算總體積(ml)
@@ -321,13 +321,13 @@ switch (doseUnit) {
         // 詳細計算過程
         var calculationDetails = "計算過程:\n";
             calculationDetails += doseConversionDetails + "\n";
-            calculationDetails += "Step 2: 藥物總量(mg) = " + totalDrugMg.toFixed(2) + "\n";
+            calculationDetails += "Step 2: 藥品總量(mg) = " + totalDrugMg.toFixed(2) + "\n";
             calculationDetails += "Step 3: 總體積(ml) = " + totalVolume.toFixed(2) + "\n";
-            calculationDetails += "Step 4: 濃度 = 藥物總量(mg) / 總體積(ml) = " + concentration + " mg/mL\n";
+            calculationDetails += "Step 4: 濃度 = 藥品總量(mg) / 總體積(ml) = " + concentration + " mg/mL\n";
             calculationDetails += "Step 5: 流速(ml/hr) = [每分鐘劑量(mg/min) / 濃度(mg/ml) ] * 60(min/hr) = [" + dosePerMinute.toFixed(2) + "(mg/min)/" + concentration + "(mg/mL)] * 60(min/hr) = " + infusionRateMlPerHr.toFixed(2) + " ml/hr\n";
 
         // 顯示計算結果和詳細計算過程
-        var resultText = "藥物名稱: " + selectedDrug + "\n";
+        var resultText = "藥品名稱: " + selectedDrug + "\n";
             resultText += "流速: " + infusionRateMlPerHr.toFixed(2) + " ml/hr = " + infusionRateMlPerMin.toFixed(2) + " ml/min\n";
             resultText += calculationDetails;
 
