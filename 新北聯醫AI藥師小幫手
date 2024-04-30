@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base target="_top">
+    <meta charset="UTF-8">
+    <title>新北聯醫AI藥師小幫手</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        label, .result, .settings {
+            display: block;
+            margin-top: 10px;
+        }
+        textarea, input[type="range"], button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 4px;
+        }
+        textarea {
+            height: 100px;
+            border: 1px solid #ccc;
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            height: 5px;
+            background: #ddd;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+        input[type="range"]:hover {
+            opacity: 1;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 0.8em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>新北聯醫AI藥師小幫手</h1>
+    <label for="prompt">Prompt:</label>
+    <textarea id="prompt" aria-label="Prompt">Assume you are a clinical pharmacist. Please professionally and concisely edit the following medical text to ensure accuracy and clarity. Present your revisions in English</textarea>
+    <label for="inputText">Your Text:</label>
+    <textarea id="inputText" aria-label="Your Text" placeholder="Enter your text here"></textarea>
+    <div class="settings">
+        <label for="temperature">Temperature (Default 0.5):</label>
+        <input type="range" id="temperature" min="0" max="1" step="0.01" value="0.5">
+        <span id="tempValue">0.5</span>
+    </div>
+    <div class="settings">
+        <label for="maxTokens">Max Tokens (Default 150):</label>
+        <input type="range" id="maxTokens" min="1" max="300" step="1" value="150">
+        <span id="tokenValue">150</span>
+    </div>
+    <button onclick="sendTextToServer()">Submit</button>
+    <div id="result" class="result"></div>
+    <div class="footer">
+        Powered by GPT-4.0
+    </div>
+
+<script>
+    document.getElementById('temperature').oninput = function() {
+        document.getElementById('tempValue').textContent = this.value;
+    };
+    document.getElementById('maxTokens').oninput = function() {
+        document.getElementById('tokenValue').textContent = this.value;
+    };
+
+    function sendTextToServer() {
+        var prompt = document.getElementById('prompt').value;
+        var text = document.getElementById('inputText').value;
+        var temperature = document.getElementById('temperature').value;
+        var maxTokens = document.getElementById('maxTokens').value;
+        document.getElementById('result').textContent = "Submitting...";
+        // 假設有 API 處理溫度和最大字元參數
+        google.script.run.withSuccessHandler(showResult).processText(prompt, text, temperature, maxTokens);
+    }
+
+    function showResult(result) {
+        document.getElementById('result').textContent = "Result: " + result;
+    }
+</script>
+
+</body>
+</html>
